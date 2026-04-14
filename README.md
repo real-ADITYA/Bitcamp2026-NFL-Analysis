@@ -1,437 +1,307 @@
-# Bitcamp NFL Draft Project — Notebook Guide
+# Bitcamp NFL Project Guide
 
-## Overview
+This guide explains the project using the directory structure shown in your folders. It is written so someone opening the project for the first time can understand what each folder is for, what each notebook does, and how the pieces fit together.
 
-This project studies **NFL draft value**, with a focus on identifying **hidden gems** and using that idea to understand **which teams draft well or poorly**. Across the notebooks, the project evolves from an early fantasy-rookie analysis into a more complete pipeline that connects **combine traits**, **draft position**, and **later NFL production**.
+## Project Overview
 
-The three notebooks serve different roles:
+This Bitcamp project focuses on **NFL draft analysis**, especially around the ideas of:
 
-1. **`NFLdraft.ipynb`** — early exploratory notebook focused on **rookie fantasy outcomes**
-2. **`Draft_Gems_Reports.ipynb`** — scouting report / text-trait notebook focused on **qualitative player traits**
-3. **`nfl_draft_gems.ipynb`** — the main polished notebook that builds a **historical gem model** and scores the **2026 class**
+- identifying **hidden gems**
+- identifying **busts**
+- comparing **team drafting success**
+- using **combine / prospect traits** and **post-draft player performance**
 
----
-
-## Recommended Reading Order
-
-### 1. `NFLdraft.ipynb`
-Read this first if you want to understand the **starting point** of the project.
-
-### 2. `Draft_Gems_Reports.ipynb`
-Read this second if you want to see how the project expanded into **scouting-report trait extraction**.
-
-### 3. `nfl_draft_gems.ipynb`
-Read this last. It is the **main notebook** and the best representation of the final Bitcamp idea.
+The project is split into three main folders, each representing a different angle of the work.
 
 ---
 
-## 1. `NFLdraft.ipynb`
+## Directory Structure
 
-## Purpose
-This notebook is an **early exploratory analysis** that looks at rookie players and their fantasy football value. Its main idea is:
+```text
+NFL Draft Gems Analysis/
+├── combine-2000-2025.csv
+├── combine-data-2026.csv
+├── nfl_draft_gems.html
+├── nfl_draft_gems.ipynb
+└── yearly_player_stats_offense.csv
 
-- take top fantasy performers by position
-- compare them against rookie draft data
-- see which teams, colleges, and positions produced fantasy-relevant rookies
+NFL Draft Success Analysis/
+├── Draft_Gems_Reports.ipynb
+├── cleaned_draft_reports.csv
+└── yearly_player_stats_offense.csv
 
-## What the notebook does
-
-### A. Loads fantasy data by position
-It imports separate CSV files for:
-- quarterbacks
-- running backs
-- wide receivers
-- tight ends
-
-### B. Keeps only top fantasy performers
-It trims the fantasy datasets to an approximate fantasy-relevant range:
-- top 24 QBs
-- top 36 RBs
-- top 48 WRs
-- top 24 TEs
-
-This makes the notebook focus on players who actually mattered in fantasy formats.
-
-### C. Cleans player names
-Fantasy data often includes team abbreviations inside the player field, so the notebook removes the trailing team text from player names. This is needed so the names match the rookie dataset.
-
-### D. Loads 2025 rookie draft data
-The notebook then reads a rookie draft CSV and compares the rookie list against the top fantasy players.
-
-### E. Matches rookies to fantasy-relevant players
-For each position, it finds players who:
-- were rookies in 2025
-- also showed up among the top fantasy scorers
-
-### F. Creates simple visualizations
-The notebook then graphs:
-- number of top fantasy rookies by team
-- number of top fantasy rookies by college
-- number of top fantasy rookies by position
-
-## Main takeaway
-This notebook is a good **idea-generation notebook**. It is less about modeling and more about discovering patterns such as:
-- which teams landed productive rookies
-- which colleges fed the most fantasy-relevant rookies
-- which positions produced the most immediate impact
-
-## Why it matters to the project
-This notebook helps motivate the broader project question:
-
-> Can draft information help us understand which players and teams create the most value?
-
-It is the most basic version of that question.
-
-## Limitations
-This notebook is more exploratory than predictive:
-- it focuses on one rookie class
-- it uses fantasy output directly
-- it does not yet define hidden gems formally
-- it does not model long-term value over expected draft position
+NFL Rookies and Potential Analysis/
+├── fantasy/
+├── rookies/
+└── NFLdraft.ipynb
+```
 
 ---
 
-## 2. `Draft_Gems_Reports.ipynb`
+# 1. NFL Draft Gems Analysis
 
-## Purpose
-This notebook explores the **text side** of draft evaluation by using **scouting reports**. Instead of focusing only on measurements or fantasy stats, it tries to understand what kinds of **strengths and weaknesses** appear in reports for successful later-round players.
+This folder is the clearest **main analysis folder** for the draft-gems project.
 
-## What the notebook does
+## Files
 
-### A. Loads offensive player statistics
-It begins with yearly offensive player stats and uses them to filter for meaningful NFL contributors.
+### `nfl_draft_gems.ipynb`
+This is the primary notebook for the hidden gem analysis. It appears to be the most polished version of the core project idea.
 
-### B. Defines a rough “successful later-round player” filter
-It narrows the dataset to players who:
-- played significant offensive snaps
-- were drafted in later rounds
-- had strong enough fantasy production
+Its main job is to connect:
+- **combine data**
+- **draft class / prospect information**
+- **offensive NFL production**
 
-It also filters to more recent draft classes where scouting report data is available.
+From there, it analyzes which players may have outperformed expectations and which traits are associated with stronger NFL outcomes.
 
-### C. Extracts unique player lists
-Once the successful later-round players are identified, the notebook extracts:
-- player name
-- position
-- college
+### `nfl_draft_gems.html`
+This is the exported HTML version of the notebook. It is useful for:
+- sharing results without requiring Jupyter
+- presenting the notebook to judges or teammates
+- keeping a frozen version of the work
 
-This helps form the candidate set for report analysis.
-
-### D. Loads scouting report data
-The notebook reads a cleaned scouting report CSV containing text fields such as:
-- strengths
-- weaknesses
-- position
-
-### E. Builds a trait dictionary
-A large keyword map is created to identify traits in report text. These include categories such as:
-- instincts
-- vision
-- processing
-- toughness
-- and many more
-
-There are separate groups for:
-- strengths
-- weaknesses
-
-### F. Counts trait mentions
-Each scouting report is processed so that the notebook can count how often each trait appears in:
-- the strength text
-- the weakness text
-
-It then converts those counts into binary presence flags.
-
-### G. Summarizes traits by position
-The notebook computes how common traits are for each position and visualizes:
-- most common strengths by position
-- most common weaknesses by position
-
-### H. Looks for “polarizing” traits
-It checks for traits that appear as both a strength and a weakness across players or even for the same player. That helps identify traits that may be interpreted differently depending on context.
-
-### I. Correlates trait patterns with performance
-The notebook merges trait data with player performance indicators such as:
-- average fantasy points
-- average offensive snaps
-- draft round
-
-It then uses correlation analysis and heatmaps to see which reported traits are associated with better or worse outcomes.
-
-## Main takeaway
-This notebook adds a **qualitative layer** to the project. It asks:
-
-> What do successful later-round players tend to look like in scouting language?
-
-That makes the project more interesting because it moves beyond raw numbers and into how players were described before entering the league.
-
-## Why it matters to the project
-This notebook can strengthen the final Bitcamp story by showing that hidden gems are not just statistical accidents. Some may share recurring scouting themes, such as:
-- instincts
-- toughness
-- vision
-- processing
-- effort
-- versatility
-
-## Limitations
-This notebook is very useful, but it is also more experimental:
-- keyword matching is not the same as full NLP understanding
-- scouting report wording can vary heavily
-- results may depend on the hand-built trait dictionary
-- this notebook is more descriptive than predictive
-
----
-
-## 3. `nfl_draft_gems.ipynb`
-
-## Purpose
-This is the **main notebook** of the project. It builds a structured pipeline to identify historical NFL draft gems using combine traits and later NFL outcomes, then applies that logic to the **2026 combine class**.
-
-This is the notebook that best represents the project as a Bitcamp hackathon submission.
-
-## Big-picture goal
-The notebook tries to answer:
-
-> Can pre-draft combine traits help us identify players who may become late-round NFL gems?
-
-## What the notebook does
-
-### A. Introduces the project
-The notebook frames the project around the idea that NFL teams are always searching for value outside the early rounds, especially on Day 3 and late Day 2.
-
-### B. Uses three main data sources
-The notebook combines:
-- historical combine data
-- 2026 combine data
-- offensive NFL performance stats
-
-This creates a bridge from **pre-draft traits** to **post-draft outcomes**.
-
-### C. Standardizes the combine datasets
-The historical and 2026 combine files use different column names, so the notebook renames them into a shared schema. Important features include:
-- player
-- position
-- school
+### `combine-2000-2025.csv`
+Historical combine dataset. This is likely the main long-range source for prospect physical traits, such as:
 - height
 - weight
-- forty-yard dash
-- vertical jump
-- bench press
-- broad jump
-- three-cone drill
-- shuttle
-- draft info
-
-### D. Cleans the NFL performance data
-The NFL stats table is reduced to the core outcome fields:
-- player
-- position
-- draft year
-- draft round
-- draft pick
-- season
-- fantasy_points_ppr
-- offense_snaps
-
-It then creates two important outcome indicators:
-- **starter season** = at least 500 offensive snaps
-- **strong fantasy season**
-  - top 12 at QB or TE
-  - top 24 at RB or WR
-
-### E. Merges historical combine data with NFL outcomes
-To do this reliably, the notebook normalizes names by:
-- lowercasing
-- removing punctuation
-- removing suffixes like Jr. or III
-
-Then it merges combine records with NFL outcome records.
-
-### F. Builds the historical training window
-The notebook filters to a training period where both combine data and NFL outcomes are available. This becomes the historical dataset used for gem labeling and model training.
-
-### G. Defines what a gem is
-This is one of the most important parts of the entire project.
-
-A player is labeled as a **gem** if they are:
-- drafted in the **4th round or later**
-- recorded a **starter season**
-- recorded a **strong fantasy season**
-
-This gives the project a clean and understandable target label.
-
-### H. Analyzes historical gems
-The notebook then studies how gems are distributed across:
-- draft classes
-- positions
-
-It also compares average combine traits for:
-- gems
-- non-gems
-
-### I. Creates exploratory visualizations
-The notebook includes graphs for:
-- gems by draft round
-- gems by position
-- forty-yard dash for gems vs non-gems
-- vertical jump for gems vs non-gems
-- snap count vs fantasy production
-
-These figures help explain what differentiates gem-like players.
-
-### J. Builds the model
-The notebook uses a logistic regression pipeline with:
-- median imputation
-- scaling for numeric features
-- one-hot encoding for position
-- class balancing
-
-The model uses features such as:
-- position
-- height
-- weight
-- forty
-- vertical
+- 40-yard dash
 - bench
-- broad jump
-- three-cone
+- vertical
 - shuttle
+- broad jump
+- position
 
-### K. Evaluates the model
-The notebook performs a train/test split and evaluates performance using:
-- ROC-AUC
-- average precision
-- classification report
-- confusion matrix
+This file is useful for building historical trend analyses and for comparing players across many years of drafts.
 
-This is the predictive core of the project.
+### `combine-data-2026.csv`
+This is the current or most recent combine dataset, likely included so the project can extend historical patterns toward newer players.
 
-### L. Interprets model coefficients
-After fitting the model on the full historical labeled set, it extracts the learned coefficients so the team can discuss which traits push players toward or away from gem-like status.
+This file is useful if you want to:
+- compare the 2026 class to previous classes
+- estimate which newer prospects resemble past hidden gems
+- create “future candidate” style outputs
 
-### M. Scores the 2026 combine class
-The model is then applied to the 2026 combine table to generate a:
-- **gem_like_score**
+### `yearly_player_stats_offense.csv`
+This is the post-draft offensive outcome dataset. It gives the notebook actual NFL performance information to compare against prospect expectations.
 
-This gives every 2026 prospect a probability-like score based on similarity to historical late-round gems.
+This file is important because it turns the project from “combine measurements only” into “combine measurements plus actual results.”
 
-### N. Produces top 2026 gem candidates
-Finally, the notebook ranks players and also creates top candidates by position.
+## Purpose of this folder
 
-This is the most demo-friendly part of the notebook because it turns historical analysis into a forward-looking prediction tool.
+This folder answers a question like:
 
-## Main takeaway
-This notebook is the strongest final product because it combines:
-- data preprocessing
-- feature engineering
-- label construction
-- exploratory analysis
-- machine learning
-- practical predictions for a future draft class
+**Which draft prospects became hidden gems, and what pre-draft traits seem most associated with better NFL outcomes?**
 
-It is the notebook you would use to explain the project to judges.
-
-## Why it matters to the project
-This notebook gives the project a real product-style pitch:
-
-> Use historical combine and NFL production data to identify traits associated with later-round success, then surface overlooked 2026 prospects with gem-like profiles.
-
-That is clean, understandable, and hackathon-ready.
-
-## Limitations
-The notebook is strong, but it still has important limits:
-- it focuses on offensive outcomes
-- the gem label uses fantasy success, so it is more fantasy/offense oriented than full football value
-- it does not yet model busts
-- it does not yet evaluate team drafting quality directly
-- combine metrics alone may miss important context such as college production, scheme fit, injuries, and scouting nuance
+It is the strongest folder for a Bitcamp explanation because it has:
+- a clear input dataset
+- a clear notebook
+- a clear analytical goal
 
 ---
 
-## How the Three Notebooks Fit Together
+# 2. NFL Draft Success Analysis
 
-The notebooks can be understood as three stages of the same idea.
+This folder looks like the **scouting report / report-cleaning / broader success-analysis** branch of the project.
 
-### Stage 1: Rookie fantasy exploration
-**`NFLdraft.ipynb`**
-- explores rookie fantasy impact
-- identifies useful joins between draft data and outcomes
+## Files
 
-### Stage 2: Scouting-report trait analysis
-**`Draft_Gems_Reports.ipynb`**
-- explores the language behind successful later-round players
-- adds qualitative trait analysis
+### `Draft_Gems_Reports.ipynb`
+This notebook appears to focus more on **draft reports** and **success analysis**, likely using written scouting-style information or cleaned prospect report data.
 
-### Stage 3: Historical gem modeling
-**`nfl_draft_gems.ipynb`**
-- formalizes the gem definition
-- builds a predictive model
-- scores the 2026 class
+Compared to `nfl_draft_gems.ipynb`, this notebook seems more focused on the question:
 
-Together, they show the progression from:
-- descriptive exploration
-to
-- qualitative trait mining
-to
-- predictive modeling
+**Can draft reports and prospect descriptors help explain later NFL success?**
 
----
+This makes it a useful companion notebook rather than the central one.
 
-## Suggested Bitcamp Demo Framing
+### `cleaned_draft_reports.csv`
+This is likely a processed version of scouting report data. It may include:
+- player names
+- positions
+- report text
+- cleaned or extracted features
+- draft-related labels
 
-If you are presenting this project at Bitcamp, the cleanest summary is:
+This file is valuable if the project wants to go beyond physical attributes and include more descriptive scouting information.
 
-### Project idea
-We built a system that uses historical combine data and NFL outcomes to identify the profile of later-round draft gems, then used that model to score 2026 prospects.
+### `yearly_player_stats_offense.csv`
+This is the same type of offensive outcome dataset used in the main draft-gems analysis. In this folder, it likely serves as the “ground truth” for later player success.
 
-### Why it matters
-NFL teams often miss on later-round value, and fans, analysts, and front offices all care about finding overlooked talent.
+## Purpose of this folder
 
-### What makes the project interesting
-- combines sports analytics and machine learning
-- uses both quantitative and qualitative information
-- produces forward-looking prospect scores
-- can be extended into team drafting analysis and bust prediction
+This folder is best described as the **qualitative-to-quantitative success analysis** part of the project.
 
----
+It is useful for asking:
+- Do scouting reports line up with actual success?
+- Are certain report patterns associated with hidden gems or busts?
+- Can written prospect expectations help explain later NFL performance?
 
-## Best “next steps” for the project
+## Best way to present this folder
 
-If this project continues beyond the hackathon, the strongest next additions would be:
+Describe it as a **secondary analysis branch** that expands the project beyond raw combine numbers.
 
-### 1. Add bust labeling
-Right now the project mainly models hidden gems. A natural extension is to define busts using:
-- early-round draft capital
-- poor NFL production
-- low snap counts
-- weak fantasy or positional outcomes
-
-### 2. Evaluate team drafting quality
-Once gems and busts are defined, you can compute:
-- gem count by team
-- bust count by team
-- gem rate by team
-- average value over expected by team
-
-This would answer the next major question:
-> Which teams draft well or poorly?
-
-### 3. Add college production
-Combine testing alone is useful, but adding college performance would likely improve predictions.
-
-### 4. Expand to defense
-The current notebook leans heavily toward offensive players and fantasy-relevant outcomes.
-
-### 5. Use scouting report traits as model features
-The trait extraction notebook could be folded into the main gem model for a more powerful hybrid system.
+That makes the overall project feel broader and more thoughtful:
+- one notebook focuses on measurable physical traits
+- another looks at cleaned draft reports / scouting language
 
 ---
 
-## Bottom Line
+# 3. NFL Rookies and Potential Analysis
 
-- **`NFLdraft.ipynb`** is the early exploratory notebook.
-- **`Draft_Gems_Reports.ipynb`** is the qualitative scouting-report notebook.
-- **`nfl_draft_gems.ipynb`** is the main final notebook and the best one to showcase.
+This folder looks like the **earlier exploratory notebook** or the branch focused on rookies, fantasy value, and future upside.
 
-If you want one notebook to lead with during a Bitcamp presentation, it should be **`nfl_draft_gems.ipynb`**. The other two are best presented as supporting work that helped shape the final idea.
+## Files
+
+### `NFLdraft.ipynb`
+This notebook appears to be the rookie/potential analysis notebook.
+
+It is best described as an exploratory notebook for:
+- rookies
+- fantasy outcomes
+- offensive projections
+- player potential
+
+Compared to the other notebooks, this one feels more like a development or idea-building notebook rather than the final flagship analysis.
+
+### `fantasy/`
+This subfolder likely contains fantasy-related data files or outputs.
+
+These are useful for:
+- measuring post-draft value in a fantasy-football way
+- defining player success in an accessible way
+- supporting analyses for QB, RB, WR, and TE
+
+### `rookies/`
+This subfolder likely contains rookie-specific files, class data, or player subsets used during analysis.
+
+These are useful for:
+- comparing incoming players
+- isolating first-year player groups
+- experimenting with rookie-only projections
+
+## Purpose of this folder
+
+This folder is best understood as the **rookie upside / offensive potential** side of the project.
+
+It likely helps answer questions like:
+- Which rookies appear most promising?
+- Which prospects could become fantasy-relevant contributors?
+- How do rookie traits relate to future offensive production?
+
+## Best way to present this folder
+
+Present it as the project’s **exploratory and future-looking component**.
+
+That is especially useful in a hackathon setting because it shows the project is not only retrospective, but also capable of being extended into prediction.
+
+---
+
+# How the Three Folders Fit Together
+
+The project becomes much easier to explain when you describe the folders as three connected layers:
+
+## Layer 1 — Main hidden gem analysis
+**Folder:** `NFL Draft Gems Analysis`
+
+This is the core project.
+It uses combine data plus offensive outcomes to identify players who outperformed expectations.
+
+## Layer 2 — Draft success / report analysis
+**Folder:** `NFL Draft Success Analysis`
+
+This extends the project by using cleaned scouting-report style data to see whether written evaluations align with actual NFL success.
+
+## Layer 3 — Rookie and potential analysis
+**Folder:** `NFL Rookies and Potential Analysis`
+
+This is the exploratory / predictive branch that looks more toward rookies, upside, and fantasy-relevant future value.
+
+---
+
+# Recommended Presentation Narrative
+
+If you are explaining this at Bitcamp, the cleanest story is:
+
+## Step 1
+Start with the problem:
+
+**NFL teams spend massive draft capital trying to identify future stars, but many high picks underperform while later picks become hidden gems.**
+
+## Step 2
+Explain the project goal:
+
+**This project analyzes which draft prospects outperform expectations, what traits are associated with those players, and how the same framework can be used to study rookie upside and broader draft success.**
+
+## Step 3
+Walk through the three folders:
+
+### `NFL Draft Gems Analysis`
+The main notebook that connects combine data and offensive production to identify hidden gems.
+
+### `NFL Draft Success Analysis`
+A secondary notebook that uses cleaned draft report data to study how prospect evaluations relate to success.
+
+### `NFL Rookies and Potential Analysis`
+An exploratory notebook for rookie upside, fantasy value, and future potential.
+
+---
+
+# Which Notebook Is the Main One?
+
+If someone asks which notebook they should open first, the answer should be:
+
+## Start with:
+**`NFL Draft Gems Analysis/nfl_draft_gems.ipynb`**
+
+Why:
+- it best matches the project theme
+- it has the clearest connection between inputs and results
+- it is the most presentation-friendly centerpiece
+
+Then, if they want more context or extensions:
+- open `NFL Draft Success Analysis/Draft_Gems_Reports.ipynb`
+- then look at `NFL Rookies and Potential Analysis/NFLdraft.ipynb`
+
+---
+
+# Strongest Bitcamp Framing
+
+The strongest hackathon framing for this directory is:
+
+## **NFL Draft Intelligence**
+A multi-part analysis project that studies hidden gems, bust risk, draft success patterns, and rookie upside using combine data, draft reports, and post-draft offensive performance.
+
+That phrasing is better than describing it as three unrelated notebooks. It makes the project feel like one system with multiple perspectives.
+
+---
+
+# Suggested README Summary
+
+If you want a short summary for GitHub or a quick intro section, use this:
+
+```md
+This project analyzes NFL draft outcomes using three connected workflows:
+
+1. **NFL Draft Gems Analysis**  
+   Identifies hidden gems using historical combine data and offensive player production.
+
+2. **NFL Draft Success Analysis**  
+   Studies how cleaned draft reports and prospect evaluations relate to later NFL success.
+
+3. **NFL Rookies and Potential Analysis**  
+   Explores rookie upside, fantasy relevance, and future offensive potential.
+
+Together, these notebooks form a broader NFL Draft Intelligence project focused on finding undervalued players, understanding draft success, and analyzing prospect potential.
+```
+
+---
+
+# Best Next Step
+
+The best next step is to add a top-level project README that:
+- introduces the project in 1–2 paragraphs
+- shows the folder structure
+- tells readers which notebook to open first
+- explains how hidden gems and success are being measured
+
+That would make the project much easier to present and submit.
