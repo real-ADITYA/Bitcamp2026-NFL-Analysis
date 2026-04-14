@@ -60,32 +60,6 @@ This is the exported HTML version of the notebook. It is useful for:
 - presenting the notebook to judges or teammates
 - keeping a frozen version of the work
 
-### `combine-2000-2025.csv`
-Historical combine dataset. This is likely the main long-range source for prospect physical traits, such as:
-- height
-- weight
-- 40-yard dash
-- bench
-- vertical
-- shuttle
-- broad jump
-- position
-
-This file is useful for building historical trend analyses and for comparing players across many years of drafts.
-
-### `combine-data-2026.csv`
-This is the current or most recent combine dataset, likely included so the project can extend historical patterns toward newer players.
-
-This file is useful if you want to:
-- compare the 2026 class to previous classes
-- estimate which newer prospects resemble past hidden gems
-- create “future candidate” style outputs
-
-### `yearly_player_stats_offense.csv`
-This is the post-draft offensive outcome dataset. It gives the notebook actual NFL performance information to compare against prospect expectations.
-
-This file is important because it turns the project from “combine measurements only” into “combine measurements plus actual results.”
-
 ## Purpose of this folder
 
 This folder answers a question like:
@@ -113,19 +87,6 @@ Compared to `nfl_draft_gems.ipynb`, this notebook seems more focused on the ques
 **Can draft reports and prospect descriptors help explain later NFL success?**
 
 This makes it a useful companion notebook rather than the central one.
-
-### `cleaned_draft_reports.csv`
-This is likely a processed version of scouting report data. It may include:
-- player names
-- positions
-- report text
-- cleaned or extracted features
-- draft-related labels
-
-This file is valuable if the project wants to go beyond physical attributes and include more descriptive scouting information.
-
-### `yearly_player_stats_offense.csv`
-This is the same type of offensive outcome dataset used in the main draft-gems analysis. In this folder, it likely serves as the “ground truth” for later player success.
 
 ## Purpose of this folder
 
@@ -162,22 +123,6 @@ It is best described as an exploratory notebook for:
 - player potential
 
 Compared to the other notebooks, this one feels more like a development or idea-building notebook rather than the final flagship analysis.
-
-### `fantasy/`
-This subfolder likely contains fantasy-related data files or outputs.
-
-These are useful for:
-- measuring post-draft value in a fantasy-football way
-- defining player success in an accessible way
-- supporting analyses for QB, RB, WR, and TE
-
-### `rookies/`
-This subfolder likely contains rookie-specific files, class data, or player subsets used during analysis.
-
-These are useful for:
-- comparing incoming players
-- isolating first-year player groups
-- experimenting with rookie-only projections
 
 ## Purpose of this folder
 
